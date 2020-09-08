@@ -1,0 +1,22 @@
+{
+  "name": "natours",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CyVision13/NodeJsNatours.git"
+  },
+  "author": "CyVision",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CyVision13/NodeJsNatours/issues"
+  },
+  "homepage": "https://github.com/CyVision13/NodeJsNatours#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
