@@ -110,14 +110,19 @@ const deleteTour = (req, res) => {
   });
 };
 
-app.route('/api/v1/tours').get(getAllTours).post(createTour);
+const tourRouter = express.Router();
 
-app
-  .route('/api/v1/tours/:id')
+
+tourRouter.route('/').get(getAllTours).post(createTour);
+
+tourRouter
+  .route('/:id')
   .get(getTour)
   .delete(deleteTour)
   .patch(updateTour);
 
+
+  app.use('/api/v1/tours',tourRouter);
 // app.delete('/api/v1/tours/:id', deleteTour);
 
 const getAllUsers = (req,res){
@@ -150,13 +155,21 @@ const deleteUser = (req,res){
     message:'This route is not yet definded'
   })
 }
+// ROUTES 
 
-app.route('/api/v1/users').get(getAllUsers).post(createUser);
-app
-  .route('/api/v1/users/:id')
+
+
+const userRouter = express.Router();
+
+
+userRouter.route('/').get(getAllUsers).post(createUser);
+userRouter
+  .route('/:id')
   .get(getUser)
   .patch(updateUser)
   .delete(deleteUser);
+
+  app.use('/api/v1/users',userRouter);
 
 const port = 313;
 app.listen(port, () => {
