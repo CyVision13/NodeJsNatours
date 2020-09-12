@@ -5,12 +5,12 @@ const app = express();
 
 app.use(express.json());
 
-app.use(morgan('dev'))
+app.use(morgan('dev'));
 
-app.use((req,res,next)=>{
+app.use((req, res, next) => {
   console.log('Hello from the middleware');
   next();
-})
+});
 
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
@@ -119,6 +119,44 @@ app
   .patch(updateTour);
 
 // app.delete('/api/v1/tours/:id', deleteTour);
+
+const getAllUsers = (req,res){
+  res.status(500).json({
+    status:'error',
+    message:'This route is not yet definded'
+  })
+}
+const getUser = (req,res){
+  res.status(500).json({
+    status:'error',
+    message:'This route is not yet definded'
+  })
+}
+const createUser = (req,res){
+  res.status(500).json({
+    status:'error',
+    message:'This route is not yet definded'
+  })
+}
+const updateUser = (req,res){
+  res.status(500).json({
+    status:'error',
+    message:'This route is not yet definded'
+  })
+}
+const deleteUser = (req,res){
+  res.status(500).json({
+    status:'error',
+    message:'This route is not yet definded'
+  })
+}
+
+app.route('/api/v1/users').get(getAllUsers).post(createUser);
+app
+  .route('/api/v1/users/:id')
+  .get(getUser)
+  .patch(updateUser)
+  .delete(deleteUser);
 
 const port = 313;
 app.listen(port, () => {
