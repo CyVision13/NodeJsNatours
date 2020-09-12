@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/CyVision13/NodeJsNatours#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.4"
   }
 }
