@@ -7,10 +7,14 @@ const router = express.Router();
 
 router.param('id',tourController.checkID);
 
+
+//Create a checkBody middleware
+
+
 router
   .route('/')
   .get(tourController.getAllTours)
-  .post(tourController.createTour);
+  .post(tourController.checkBody ,tourController.createTour);
 
 router
   .route('/:id')
