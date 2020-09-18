@@ -10,18 +10,26 @@ exports.getTour = (req, res) => {
   
 };
 exports.createTour = async(req, res) => {
-
-  // const newTours = new Tour({})
+  try{
+    // const newTours = new Tour({})
   // newTours.save()
 
    const newTour = await Tour.create(req.body)
 
-  res.status(201).json({
-    status: 'success',
-    data: {
-      tour: newTour,
-    },
-  });
+   res.status(201).json({
+     status: 'success',
+     data: {
+       tour: newTour,
+     },
+   });
+
+  } catch (err){
+    res.status(400).json({
+      status:"fail",
+      message:err
+    })
+  }
+  
 };
 
 // app.post('/api/v1/tours', createTour);
