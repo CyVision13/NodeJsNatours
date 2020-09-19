@@ -1,3 +1,4 @@
+const { query } = require('express');
 // const fs = require('fs')
 const Tour = require('./../models/tourModel');
 
@@ -59,10 +60,22 @@ exports.getAllTours = async (req, res) => {
     //   .where('difficulty')
     //   .equals('easy');
 
+  
     //third way of query 
-    const tours = await Tour.find(req.query);
 
 
+    // to remove trash params in query like pagination and sort...
+    //build query
+    const queryObj = {...req.query}
+    const excludedFields = ['page','sort','limit','fields'];
+    excludedFields.forEach(el=> delete queryObj[el])
+    // console.log(queryObj);
+
+    const query = Tour.find(queryObj);
+
+    
+// execute query
+    const tours = await query
     res.status(200).json({
       status: 'seccess',
       results: tours.length,
