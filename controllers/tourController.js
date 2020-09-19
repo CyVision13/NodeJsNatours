@@ -75,14 +75,25 @@ exports.getAllTours = async(req, res) => {
 
 // app.get('/api/v1/tours/:id', getTour);
 
-exports.updateTour = (req, res) => {
+exports.updateTour = async(req, res) => {
+  try {
+    const tour = await Tour.findByIdAndUpdate(req.params.id,req.body,{
+      new : true,
+      runValidators:true
+    })
+    res.status(200).json({
+      status: 'success',
+      data: {
+        tour: '<Updated tour here ...>',
+      },
+    });
+  } catch(err){
+    res.status(404).json({
+      status:'fail',
+      message:err
+    })
+  }
   
-  res.status(200).json({
-    status: 'success',
-    data: {
-      tour: '<Updated tour here ...>',
-    },
-  });
 };
 
 // app.patch('/api/v1/tours/:id', updateTour);
