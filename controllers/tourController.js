@@ -98,10 +98,23 @@ exports.updateTour = async(req, res) => {
 
 // app.patch('/api/v1/tours/:id', updateTour);
 
-exports.deleteTour = (req, res) => {
+exports.deleteTour = async(req, res) => {
+  try {
+    const tour = await Tour.findByIdAndRemove(req.params.id,{
+      new : true,
+      runValidators:true
+    })
+    res.status(204).json({
+      status: 'success',
+      data: {
+        tour :null
+      },
+    });
+  } catch(err){
+    res.status(404).json({
+      status:'fail',
+      message:err
+    })
+  }
   
-  res.status(204).json({
-    status: 'success',
-    data: null,
-  });
 };
