@@ -74,12 +74,13 @@ exports.getAllTours = async (req, res) => {
     // console.log(queryObj);
 
     // 2) Advanced query
-    const queryStr = JSON.stringify(queryObj);
-   
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g,match =>`$${match}`);
+    console.log(queryStr);
 
 
 
-    const query = Tour.find(queryObj);
+    const query = Tour.find(JSON.parse(queryStr));
 
 
 
@@ -97,7 +98,7 @@ exports.getAllTours = async (req, res) => {
     });
   } catch (err) {
     res.status(404).json({
-      status: 'fail',
+      status: 'fail!',
       message: err,
     });
   }
