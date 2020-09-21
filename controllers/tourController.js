@@ -71,7 +71,7 @@ exports.getAllTours = async (req, res) => {
     const queryObj = {...req.query}
     const excludedFields = ['page','sort','limit','fields'];
     excludedFields.forEach(el=> delete queryObj[el])
-    // console.log(queryObj);
+    console.log( queryObj);
 
     // 2) Advanced query
     let queryStr = JSON.stringify(queryObj);
@@ -80,8 +80,12 @@ exports.getAllTours = async (req, res) => {
 
 
 
-    const query = Tour.find(JSON.parse(queryStr));
+    let query = Tour.find(JSON.parse(queryStr));
 
+    if(req.query.sort){
+      query = query.sort(req.query.sort)
+      console.log({"query" : query});
+    }
 
 
 
