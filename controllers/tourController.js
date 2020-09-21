@@ -66,12 +66,23 @@ exports.getAllTours = async (req, res) => {
 
     // to remove trash params in query like pagination and sort...
     //build query
+
+    // 1) Filtering
     const queryObj = {...req.query}
     const excludedFields = ['page','sort','limit','fields'];
     excludedFields.forEach(el=> delete queryObj[el])
     // console.log(queryObj);
 
+    // 2) Advanced query
+    const queryStr = JSON.stringify(queryObj);
+   
+
+
+
     const query = Tour.find(queryObj);
+
+
+
 
     
 // execute query
