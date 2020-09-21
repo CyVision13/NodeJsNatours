@@ -10,6 +10,7 @@ const router = express.Router();
 
 //Create a checkBody middleware
 
+router.route('/top-5-cheap').get(tourController.aliasTopTours,tourController.getAllTours)
 
 router
   .route('/')
