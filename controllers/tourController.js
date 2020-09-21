@@ -8,7 +8,28 @@ exports.aliasTopTours = (req , res, next) => {
   req.query.fields = 'name,price,ratingAverage,summary,difficulty';
   next();
 }
+class APIFeatures {
+  constructor(query,queryString){
+    this.query = query; // = mongo db query
+    this.queryString = queryString; // = req.query
+  }
 
+  filter(){
+    const queryObj = {...this.queryString}
+    const excludedFields = ['page','sort','limit','fields'];
+    excludedFields.forEach(el=> delete queryObj[el])
+ 
+    // 2) Advanced query
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g,match =>`$${match}`);
+
+
+
+    this.query.find(JSON.parse(queryStr))
+    // let query = Tour.find(JSON.parse(queryStr));
+
+  }
+}
 exports.getTour = async (req, res) => {
   try {
     const id = req.params.id;
@@ -75,18 +96,18 @@ exports.getAllTours = async (req, res) => {
     //build query
 
     // 1) Filtering
-    const queryObj = {...req.query}
-    const excludedFields = ['page','sort','limit','fields'];
-    excludedFields.forEach(el=> delete queryObj[el])
+    // const queryObj = {...req.query}
+    // const excludedFields = ['page','sort','limit','fields'];
+    // excludedFields.forEach(el=> delete queryObj[el])
  
-    // 2) Advanced query
-    let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g,match =>`$${match}`);
+    // // 2) Advanced query
+    // let queryStr = JSON.stringify(queryObj);
+    // queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g,match =>`$${match}`);
 
 
 
 
-    let query = Tour.find(JSON.parse(queryStr));
+    // let query = Tour.find(JSON.parse(queryStr));
 
     // 2) Sorting
     if(req.query.sort){
@@ -123,7 +144,10 @@ exports.getAllTours = async (req, res) => {
 
     
 // execute query
-    const tours = await query
+
+    const features = new APIFeatures(Tour.find(),req.query).filter();
+
+    const tours = await features.query
     // query.sort().select().skip().limit()
 
 
