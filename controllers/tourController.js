@@ -137,18 +137,32 @@ exports.getTourStats = async (req,res)=>{
   try {
     const stats = await Tour.aggregate([
       {
-        $match:{ratingAverage: { $gte:4.5 }}
+        $match:{ratingAverage: { $gte:1}}
       },
       {
         $group : {
-          _id: null,
-          num:{$sum : 1 }, // computing each document = 1 number and summ all of them
+          // _id: '$difficulty',
+          // _id: '$ratingAverage',
+          _id: {$toUpper:'$difficulty'}, // divided by difficulty
+          numTours:{$sum : 1 }, // computing each document = 1 number and summ all of them
           numRatings:{$sum:'$ratingsQuantity'},
           avgRating:{$avg:'$ratingAverage'},
-          
+          avgPrice:{ $avg:'$price'},
+          minPrice:{$min:'$price'},
+          maxPrice:{$max:'$price'},
 
+
+        },
+        
+      },
+      {
+        $sort: {
+          avgPrice:1
         }
-      }
+      },
+      // {
+      //   $match: {_id:{$ne:'EASY'}}
+      // }
     ]);
 
     res.status(200).json({
