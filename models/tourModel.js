@@ -52,7 +52,15 @@ const tourSchema = new mongoose.Schema({
     select:false
   },
   startDates:[Date]
+},{ // Object for Options 
+  toJSON: { virtuals : true},
+  toObject: { virtuals : true},
 });
+
+
+tourSchema.virtual('durationWeeks').get(function(){ // we can not use virtual in query cz this is not in db
+  return this.duration /  7
+})
 const Tour = mongoose.model('Tour', tourSchema);
 
 module.exports = Tour;
