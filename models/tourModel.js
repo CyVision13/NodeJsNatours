@@ -88,11 +88,36 @@ tourSchema.pre('save',function (next){
 // })
 
 // QUERY MIDDLEWARE
-tourSchema.pre('find',function(next){
+
+// way 1) implement for both
+// tourSchema.pre('find',function(next){
+//   this.find({secretTour:{$ne:true}})
+//   // this.find({secretTour:{$eq:true}})
+//   next();
+// })
+// tourSchema.pre('findOne',function(next){
+//   this.find({secretTour:{$ne:true}})
+//   // this.find({secretTour:{$eq:true}})
+//   next();
+// })
+
+// way 2) use regular expression
+
+tourSchema.pre(/^find/,function(next){ 
   this.find({secretTour:{$ne:true}})
+
+
+  this.start = Date.now();
   // this.find({secretTour:{$eq:true}})
   next();
 })
+
+tourSchema.post(/^find/, function(docs,next) {
+  console.log(`Query took ${Date.now() - this.start } milliseconds!`);
+  // console.log(docs);
+  next();
+})
+
 
 tourSchema.pre('save',function (next){
   this.slug = slugify(this.name, { lower:true});
