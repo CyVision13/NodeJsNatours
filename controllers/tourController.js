@@ -2,7 +2,8 @@ const { query } = require('express');
 // const fs = require('fs')
 const catchAsync = require('./../utils/catchAsync')
 const Tour = require('./../models/tourModel');
-const APIFeatures = require('./../utils/apiFeaturs')
+const APIFeatures = require('./../utils/apiFeaturs');
+const AppError = require('../utils/appError');
 
 exports.aliasTopTours = (req , res, next) => {
   req.query.limit = '5';
@@ -18,6 +19,11 @@ exports.getTour = catchAsync (async (req, res,next) => {
     const id = req.params.id;
     // const id = req.params.id * 1;
     const tour = await Tour.findById(id);
+
+    if(!tour){
+      return next(new AppError('No tour found with that ID',404))
+    }
+
     // Tour.findOne({_id:req.params.id})
     res.status(201).json({
       status: 'success',
