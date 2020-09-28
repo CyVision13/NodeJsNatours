@@ -47,7 +47,7 @@ app.all('*', (req, res, next) => {
   // err.status = 'fail';
   // err.statusCode = 404;
 
-  next(AppError(`Cant find ${req.originalUrl} on this server!`, 404)); // if next get parameters express knows that we have an err
+  next(new AppError(`Cant find ${req.originalUrl} on this server!`, 404)); // if next get parameters express knows that we have an err
 });
 
 app.use(globalErrorHandler);
