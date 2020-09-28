@@ -31,12 +31,16 @@ exports.getTour = async (req, res) => {
     });
   }
 };
-exports.createTour = async (req, res) => {
-  try {
-    // const newTours = new Tour({})
-    // newTours.save()
 
-    const newTour = await Tour.create(req.body);
+
+const catchAsync = fn =>{
+  fn(req,res,next).catch(err => next(err))
+}
+
+exports.createTour = catchAsync(async (req, res, next) => {
+
+
+  const newTour = await Tour.create(req.body);
 
     res.status(201).json({
       status: 'success',
@@ -44,13 +48,20 @@ exports.createTour = async (req, res) => {
         tour: newTour,
       },
     });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+
+
+  // try {
+  //   // const newTours = new Tour({})
+  //   // newTours.save()
+
+    
+  // } catch (err) {
+  //   res.status(400).json({
+  //     status: 'fail',
+  //     message: err,
+  //   });
+  // }
+});
 
 // app.post('/api/v1/tours', createTour);
 
