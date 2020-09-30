@@ -8,13 +8,16 @@ const app = require('./app');
 // const DB = process.env.DATABASE.replace('<PASSWORD>',process.env.DATABASE_PASSWORD );
 const DB = process.env.DABABASE_LOCAL;
 
+
+
 mongoose.connect(DB,{
   useNewUrlParser:true,
   useCreateIndex:true,
   useFindAndModify:false,
   // useMongoClient:true,
   useUnifiedTopology: true
-}).then(()=> console.log('DB connection succesfull'));
+}).then(()=> console.log('DB connection succesfull!'))
+// .catch(err => console.log('ERROR'););
 
 
 // const testTour = new Tour({
@@ -33,8 +36,18 @@ mongoose.connect(DB,{
 // console.log(process.env);
 
 const port = process.env.PORT || 313;
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
 
 // Debugging Node With NDB 100%
+
+
+process.on('unhandledRejection', err => {
+  console.log(err.name , err.message);
+  console.log('UNHANDLED REJECTION! Shutting Down...');
+  server.close(()=>{
+    process.exit(1);
+  })
+  
+})
