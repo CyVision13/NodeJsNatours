@@ -1,3 +1,4 @@
+const e = require('express')
 const AppError = require('./../utils/appError')
 const handleCastErrorDB = err=>{
   const message = `Invalid ${err.path} : ${err.value}.`
@@ -5,6 +6,9 @@ const handleCastErrorDB = err=>{
 }
 
 const handleDuplicateFieldsDB = err =>{
+
+  
+
   const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0]
   console.log(value);
   const message = `Duplicate field value: ${value}. Please use another value!`
@@ -12,7 +16,10 @@ const handleDuplicateFieldsDB = err =>{
 }
 
 const handleValidationErrorDB = err =>{
-  const message = `Invalid input data.`;
+
+  const errors = Object.values(err.errors).map(el => el.message)
+
+  const message = `Invalid input data. ${errors.join('. ')}`;
   return new AppError(meesage,400)
 }
 
