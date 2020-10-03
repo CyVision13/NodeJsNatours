@@ -1,6 +1,8 @@
 const User = require('./../models/userModel')
 const jwt = require('jsonwebtoken')
 const catchAsync = require('./../utils/catchAsync')
+const AppError = require('./../utils/appError')
+
 exports.signup = catchAsync(async ( req,res,next)=>{
     // const newUser = await User.create(req.body) it had security issue
     // .create method with req.body will craete admin user in db and we dont need this
@@ -24,3 +26,24 @@ exports.signup = catchAsync(async ( req,res,next)=>{
         }
     })
 });
+
+
+exports.login = (req,res,next) =>{
+    // const {email} = req.body;  ***** = const email = req.body.email;
+    const {email, password} = req.body;
+    
+    // 1) Check if email and password exist
+    if(!email || !password){
+        next(new AppError('Please provide email and password',400));
+    }
+
+    // 2) Check if user exists && password is correct 
+    const token = '';
+    res.status(200).json({
+        status:"success",
+        token
+    })
+
+    // 3) If everything ok, send token to client
+    
+}
