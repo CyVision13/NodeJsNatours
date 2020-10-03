@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/CyVision13/NodeJsNatours#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
