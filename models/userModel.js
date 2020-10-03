@@ -31,11 +31,17 @@ const userSchema = new mongoose.Schema({
     passwordConfirm: {
         type:String ,
         required:[true, 'user must have a passwordConfirm'],
-
+        validate:{
+            // This only works on Carete & SAVE!!! we must switch from findOneAndUpdate with Save method to hash our passwords and use validator
+            validator : function(el) { // we cant use arrow function cz we need to use This keyword !!!!
+                return el === this.password
+            },
+            message:"Passwords Are Not The Same."
+        }
     }
-
     // Confirm password must be the same as password
 })
+
 
 
 
