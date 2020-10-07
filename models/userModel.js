@@ -63,6 +63,13 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+userSchema.pre('save',function(next){
+  if(!this.isModified('password') || this.isNew ) return next();
+
+  this.passworChagedAt = Date.now() - 1000; // for make sure server's delay get cought
+  next();
+})
+
 userSchema.methods.correctPassword = async function (
   candidatePassword,
   userPassword
