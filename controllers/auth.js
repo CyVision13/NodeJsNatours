@@ -96,7 +96,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   next();
 });
  
-
+ 
 exports.restrictTo = (...roles)=>{
   return(req,res,next) =>{
     // roles ['admin' , 'lead-guid']
@@ -104,7 +104,22 @@ exports.restrictTo = (...roles)=>{
       return next(new AppError('you do not have permission to perform this action',403))
     }
     next();
+  } 
+}
+
+exports.forgotPassword = catchAsync(async(req,res,next)=>{
+  // 1) Get user based on POsTed email
+  const user = await User.findOne({email : req.body.email})
+  if(!user){
+    return next(new AppError('There is no user with that email address.',404))
   }
+
+  // 2) Generate the random reset token
+
+  // 3) Send it to user's email
+})
+exports.resetPassword = (req,res,next)=>{
+
 }
 
 // Advanced Postman Setup
