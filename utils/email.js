@@ -10,6 +10,12 @@ const sendEmail = async options =>{
             user: process.env.EMAIL_USERNAME,
             pass: process.env.EMAIL_PASSWORD
         }
+        // host: "smtp.mailtrap.io",
+        // port: 2525,
+        // auth: {
+        //     user: "bc12d7af1fcc15",
+        //     pass: "89d59d36271b6e"
+        //  }
     })
 
     // 2) Definde the email options
