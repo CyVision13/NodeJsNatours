@@ -187,3 +187,43 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 // Advanced Postman Setup
+
+exports.updatePassword = catchAsync( async (req,res,next)=>{
+  // 1) Get user from collection 
+  // * my solution 
+  // const hashedToken = crypto
+  //   .createHash('sha256')
+  //   .update(req.params.token)
+  //   .digest('hex');
+
+  // const user = await User.findOne({
+  //   passwordResetToken: hashedToken,
+  //   passwordResetExpires: { $gt: Date.now() },
+  // }).select('+password');
+
+
+  // * master's solution 
+
+  const user = await User.findById(req.user.id).select('+password')
+
+  // 2) Check if POSTed Password is correct
+  if(!user){
+    return next(new AppError('Token is invalid or has expired',400))
+  }
+  if(!(user.correctPassword(req.body.passwordConfirm,user.password))){
+    return next(new AppError('Current Password is not correct',401))
+  }
+
+  // 3) If so, update password
+  user.password = req.body.newpassword
+  user.passwordConfirm = req.body.passwordConfirm
+  await user.save();
+  // 4) Log user in, send JWT
+  const token = signToken(user._id); // user id is payload...
+
+
+  res.status(200).json({
+    status: 'success',
+    token,
+  });
+})
