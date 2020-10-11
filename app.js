@@ -6,7 +6,7 @@ const AppError = require('./utils/appError');
 const app = express();
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
-
+const hpp = require('hpp');
 
 const globalErrorHandler = require('./controllers/errorController')
 const tourRouter = require('./routes/tourRoutes');
@@ -48,6 +48,19 @@ app.use(mongoSanitize());
 
 // Data sanitization against XSS (prevent from put html code in inputs)
 app.use(xss())
+
+// Prevent parameter pollution
+app.use(hpp({
+  whitelist: [
+    'duration',
+    'ratingAverage',
+    'ratingsQuantity',
+    'maxGroupSize',
+    'difficulty',
+    'price'
+
+  ]
+}));
 
 
 // Serving Static files
