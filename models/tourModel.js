@@ -126,6 +126,14 @@ const tourSchema = new mongoose.Schema({
 tourSchema.virtual('durationWeeks').get(function(){ // we can not use virtual in query cz this is not in db
   return this.duration /  7
 })
+
+// Virtual populate
+tourSchema.virtual('reviews',{
+  ref:'Review',
+  foreignField: 'tour',
+  localField:'_id'
+})
+
   // DOCUMENT MIDDLEWARE runs before .save() and .create() not in insertMany()
 tourSchema.pre('save',function (next){
   this.slug = slugify(this.name, { lower:true});
