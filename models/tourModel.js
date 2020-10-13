@@ -166,6 +166,16 @@ tourSchema.pre(/^find/,function(next){
   next();
 })
 
+tourSchema.pre(/^find/,function(next){
+  this.populate({ // this points to current query
+    path:'guides',
+    select: '-__v -passwordChagedAt'
+  
+  });
+
+  next();
+})
+
 tourSchema.post(/^find/, function(docs,next) {
   console.log(`Query took ${Date.now() - this.start } milliseconds!`);
   // console.log(docs);
