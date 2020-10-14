@@ -38,18 +38,7 @@ exports.getTour = catchAsync (async (req, res,next) => {
 
 
 
-exports.createTour = catchAsync(async (req, res, next) => {
-
-
-  const newTour = await Tour.create(req.body);
-
-    res.status(201).json({
-      status: 'success',
-      data: {
-        tour: newTour,
-      },
-    });
-
+exports.createTour = factory.createOne(Tour)
 
   // try {
   //   // const newTours = new Tour({})
@@ -62,7 +51,7 @@ exports.createTour = catchAsync(async (req, res, next) => {
   //     message: err,
   //   });
   // }
-});
+// });
 
 // app.post('/api/v1/tours', createTour);
 
@@ -91,25 +80,29 @@ exports.getAllTours = catchAsync( async (req, res,next) => {
 // app.get('/api/v1/tours', getAllTours);
 
 // app.get('/api/v1/tours/:id', getTour);
+///New Code
+exports.updateTour = factory.updateOne(Tour)
 
-exports.updateTour = catchAsync(  async (req, res,next) => {
+
+//// Old Code
+// catchAsync(  async (req, res,next) => {
  
-    const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+//   const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+//     new: true,
+//     runValidators: true,
+//   });
 
-    if(!tour){
-      return next(new AppError('No tour found with that ID',404))
-    }
-    res.status(200).json({
-      status: 'success',
-      data: {
-        tour,
-      },
-    });
+//   if(!tour){
+//     return next(new AppError('No tour found with that ID',404))
+//   }
+//   res.status(200).json({
+//     status: 'success',
+//     data: {
+//       tour,
+//     },
+//   });
 
-});
+// });
 
 // app.patch('/api/v1/tours/:id', updateTour);
 
