@@ -3,8 +3,22 @@ const fs = require('fs');
 const authController = require('./../controllers/auth')
 
 const tourController = require('./../controllers/tourController');
-
+const reviewRouter = require('./../routes/reviewRoutes')
 const router = express.Router();
+
+  
+// router old code
+  //   .route('/:tourId/reviews')
+  //   .post(
+  //     authController.protect,
+  //     authController.restrictTo('user'),
+  //     reviewController.createReview
+  //     )
+// router new code Express Nested Routes
+  router.use('/:tourId/reviews',reviewRouter)
+
+
+
 
 // router.param('id',tourController.checkID);
 
@@ -32,13 +46,7 @@ router
 
 
 
-  router
-    .route('/:tourId/reviews')
-    .post(
-      authController.protect,
-      authController.restrictTo('user'),
-      reviewController.createReview
-      )
+  
 
 
 module.exports = router;
