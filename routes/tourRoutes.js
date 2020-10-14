@@ -29,4 +29,16 @@ router
   .delete(tourController.deleteTour)
   .patch(authController.protect,authController.restrictTo('admin','lead-guide') ,tourController.updateTour);
 
+
+
+
+  router
+    .route('/:tourId/reviews')
+    .post(
+      authController.protect,
+      authController.restrictTo('user'),
+      reviewController.createReview
+      )
+
+
 module.exports = router;
