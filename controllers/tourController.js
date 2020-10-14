@@ -2,7 +2,7 @@ const { query } = require('express');
 // const fs = require('fs')
 const catchAsync = require('./../utils/catchAsync')
 const Tour = require('./../models/tourModel');
-const APIFeatures = require('./../utils/apiFeaturs');
+
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory')
 
@@ -15,27 +15,27 @@ exports.aliasTopTours = (req , res, next) => {
 
 
 
-exports.getTour = catchAsync (async (req, res,next) => {
+exports.getTour = factory.getOne(Tour,{path:'reviews'})
+
+// catchAsync (async (req, res,next) => {
   
-    const id = req.params.id;
-    // const id = req.params.id * 1;
-    const tour = await Tour.findById(id)
+//   const id = req.params.id;
+//   // const id = req.params.id * 1;
+//   const tour = await Tour.findById(id)
 
-    if(!tour){
-      return next(new AppError('No tour found with that ID',404))
-    }
+//   if(!tour){
+//     return next(new AppError('No tour found with that ID',404))
+//   }
 
-    // Tour.findOne({_id:req.params.id})
-    res.status(201).json({
-      status: 'success',
-      data: {
-        tour,
-      },
-    });
-  
-});
+//   // Tour.findOne({_id:req.params.id})
+//   res.status(201).json({
+//     status: 'success',
+//     data: {
+//       tour,
+//     },
+//   });
 
-
+// });
 
 
 exports.createTour = factory.createOne(Tour)
@@ -55,27 +55,29 @@ exports.createTour = factory.createOne(Tour)
 
 // app.post('/api/v1/tours', createTour);
 
-exports.getAllTours = catchAsync( async (req, res,next) => {
+exports.getAllTours = factory.getAll(Tour);
+
+// catchAsync( async (req, res,next) => {
   
 
-// execute query
-
-    const features = new APIFeatures(Tour.find(),req.query).filter().sort().paginate();
-
-    const tours = await features.query
-    // query.sort().select().skip().limit()
-
-
-    res.status(200).json({
-      status: 'seccess',
-      results: tours.length,
-      data: {
-        // tours:tours
-        tours,
-      },
-    });
+//   // execute query
   
-});
+//       const features = new APIFeatures(Tour.find(),req.query).filter().sort().paginate();
+  
+//       const tours = await features.query
+//       // query.sort().select().skip().limit()
+  
+  
+//       res.status(200).json({
+//         status: 'seccess',
+//         results: tours.length,
+//         data: {
+//           // tours:tours
+//           tours,
+//         },
+//       });
+    
+//   });
 
 // app.get('/api/v1/tours', getAllTours);
 
