@@ -56,24 +56,24 @@ const userSchema = new mongoose.Schema({
   // Confirm password must be the same as password
 });
 
-userSchema.pre('save', async function (next) {
-  // Only run this function if password was actually modified
-  if (!this.isModified('password')) return next();
+// userSchema.pre('save', async function (next) {
+//   // Only run this function if password was actually modified
+//   if (!this.isModified('password')) return next();
 
-  // hash the password with cost of 12
-  this.password = await bcrypt.hash(this.password, 13);
+//   // hash the password with cost of 12
+//   this.password = await bcrypt.hash(this.password, 13);
 
-  // Delete passwordConfirm Field
-  this.passwordConfirm = undefined;
-  next();
-});
+//   // Delete passwordConfirm Field
+//   this.passwordConfirm = undefined;
+//   next();
+// });
 
-userSchema.pre('save',function(next){
-  if(!this.isModified('password') || this.isNew ) return next();
+// userSchema.pre('save',function(next){
+//   if(!this.isModified('password') || this.isNew ) return next();
 
-  this.passworChagedAt = Date.now() - 1000; // for make sure server's delay get cought
-  next();
-})
+//   this.passworChagedAt = Date.now() - 1000; // for make sure server's delay get cought
+//   next();
+// })
 
 userSchema.pre(/^find/,function(next){
   // this points to the current query
