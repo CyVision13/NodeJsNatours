@@ -12,23 +12,34 @@ router.post('/login', authController.login);
 router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword);
 
+
+// *******this will protect all routes after this line********
+router.use(authController.protect)
+
+
+
 router.patch(
   '/updateMyPassword',
-  authController.protect,
   authController.updatePassword
 );
 
 
 router.get(
   '/me',
-  authController.protect,
   userController.getMe,
   userController.getUser)
 
 
 
-router.patch('/updateMe',authController.protect,userController.updateMe)
-router.delete('/deleteMe',authController.protect,userController.deleteMe)
+router.patch('/updateMe',userController.updateMe)
+router.delete('/deleteMe',userController.deleteMe)
+
+
+
+// To get Access to Admins 
+router.use(authController.restrictTo('admin'))
+
+
 router
   .route('/')
   .get(userController.getAllUsers)
