@@ -4,6 +4,10 @@ const AppError = require('./../utils/appError')
 const factory = require('./handlerFactory')
 
 
+exports.getMe = (req,res,next) =>{
+  req.params.id = req.user.id;
+  next();
+};
 
 // catchAsync(async (req, res, next) => {
 //   const users = await User.find();
@@ -18,6 +22,8 @@ const factory = require('./handlerFactory')
 //     },
 //   });
 // });
+
+
 
 exports.updateMe = (req,res,next)=>{
   // 1) Create err if useer POSTs password data
