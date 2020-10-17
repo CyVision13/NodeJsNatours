@@ -193,12 +193,44 @@ exports.getTourWithin =catchAsync(  async(req,res,next)=>{
       });
 
 
-      
+
     res.status(200).jsno({
       status: 'success',
       results: tours.length,
       data : tours
     })
+})
+
+exports.getDistances = catchAsync(async (req,res,next)=>{
+  const {  latlng, unit} = req.params;
+  const [lat,lng] = latlng.split(',');
+
+  if(!lat || !lng){
+    next(new AppError('Please provide latitutr and lonitude in the format lat,lng.',400))
+  }
+
+    // console.log(distance , lat , lng , unit);
+
+    
+    const distances = await Tour.aggregate([
+      {
+        $geoNear: {
+          near: {
+            type: 'Point',
+            coordinates: [lng * 1,lat * 1]
+          },
+          distanceField: 'distance'
+        }
+      }
+    ])
+
+
+
+    res.status(200).jsno({
+      status: 'success',
+      results: tours.length,
+      data : tours
+    })  
 })
 
 exports.getMonthlyPlan = catchAsync(async (req,res ,next) =>{
