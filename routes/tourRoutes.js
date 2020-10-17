@@ -28,6 +28,8 @@ router
   .route('/top-5-cheap')
   .get(tourController.aliasTopTours, tourController.getAllTours);
 
+router.route('/tours-within/:distance/center/:latlng/:unit',tourController.getTourWithin)
+
 router
   .route('/')
   .get(tourController.getAllTours)

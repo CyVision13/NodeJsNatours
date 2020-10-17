@@ -174,6 +174,22 @@ exports.getTourStats = catchAsync(async (req,res,next)=>{
   
 })
 
+
+exports.getTourWithin = (req,res,next)=>{
+  const { distance, latlng, unit} = req.params;
+  const [lat,lng] = latlng.split(',');
+
+  if(!lat || !lng){
+    next(new AppError('Please provide latitutr and lonitude in the format lat,lng.',400))
+  }
+
+    console.log(distance , lat , lng , unit);
+
+    res.status(200).jsno({
+      status: 'success'
+    })
+}
+
 exports.getMonthlyPlan = catchAsync(async (req,res ,next) =>{
 
     const year = req.params.year * 1;
