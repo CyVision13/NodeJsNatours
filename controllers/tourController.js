@@ -175,20 +175,29 @@ exports.getTourStats = catchAsync(async (req,res,next)=>{
 })
 
 
-exports.getTourWithin = (req,res,next)=>{
+exports.getTourWithin =catchAsync(  async(req,res,next)=>{
   const { distance, latlng, unit} = req.params;
   const [lat,lng] = latlng.split(',');
-
+  const radius = unit ==='mi'? distance /3963.2 : distance / 6378.1;
   if(!lat || !lng){
     next(new AppError('Please provide latitutr and lonitude in the format lat,lng.',400))
   }
 
-    console.log(distance , lat , lng , unit);
+    // console.log(distance , lat , lng , unit);
+
+    const tours = await Tour.find({ 
+      startLocation:{
+         $geoWithin : {$centerShpere: [[lng,lat], radius]}
+        
+        } 
+      });
 
     res.status(200).jsno({
-      status: 'success'
+      status: 'success',
+      results: tours.length,
+      data : tours
     })
-}
+})
 
 exports.getMonthlyPlan = catchAsync(async (req,res ,next) =>{
 

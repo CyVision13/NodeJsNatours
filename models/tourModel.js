@@ -126,6 +126,7 @@ const tourSchema = new mongoose.Schema({
 // tourSchema.index({price:1})   and we need to delete this from db 
 tourSchema.index({price: 1,ratingAverage: -1})   
 tourSchema.index({slug : 1})
+tourSchema.index({startLocation: '2dsphere'})
 
 tourSchema.virtual('durationWeeks').get(function(){ // we can not use virtual in query cz this is not in db
   return this.duration /  7
